@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}History - InSpectra{% endblock %}
+
+{% block content %}
+<div class="inspector-interface">
+  <div class="ellipse"></div>
+  <div class="div"></div>
+  <div class="ellipse-2"></div>
+  <div class="ellipse-3"></div>
+  <div class="ellipse-5"></div>
+  <div class="ellipse-6"></div>
+
+  <div class="frame">
+    <div class="container">
+      <div class="text-wrapper">History</div>
+      <div class="container-2">
+
+        <div class="container-3">
+          <div class="div-wrapper"><div class="text-wrapper-2">Date/Time</div></div>
+          <div class="container-4"><div class="text-wrapper-3">Images</div></div>
+          <div class="container-5"><div class="text-wrapper-4">Report</div></div>
+        </div>
+
+        {% for record in records %}
+        <div class="container-6">
+          <div class="container-7">
+            <div class="paragraph">
+              <div class="text-wrapper-5">{{ record.capture_date.split(' ')[0] }} {{ record.capture_date.split(' ')[1] }} {{ record.capture_date.split(' ')[2] }}</div>
+            </div>
+            <div class="paragraph-2">
+              <div class="text-wrapper-6">{{ record.capture_date.split(' ')[3] }} {{ record.capture_date.split(' ')[4] }}</div>
+            </div>
+          </div>
+          <div class="image-inspection-wrapper">
+            <img class="image-inspection-thumb" src="{{ url_for('static', filename='images/' + record.image_url) }}" alt="Inspection Image" />
+          </div>
+          <button class="button"><div class="text-wrapper-7">View</div></button>
+        </div>
+        {% endfor %}
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

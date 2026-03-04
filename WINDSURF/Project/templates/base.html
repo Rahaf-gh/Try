@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}InSpectra{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;700;900&family=Arimo:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/globals.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styleguide.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<div class="sidebar-nav">
+    <div class="sidebar-logo">
+        <img src="{{ url_for('static', filename='images/Rectangle 6.png') }}" alt="InSpectra Logo" />
+    </div>
+    <nav class="sidebar-icons">
+        <a href="{{ url_for('home') }}" class="nav-item {% if request.endpoint == 'home' %}active{% endif %}" title="Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
+        <a href="{{ url_for('history') }}" class="nav-item {% if request.endpoint == 'history' %}active{% endif %}" title="History">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+        </a>
+        <a href="{{ url_for('dashboard') }}" class="nav-item {% if request.endpoint == 'dashboard' %}active{% endif %}" title="Dashboard">
+            <i class="fa-solid fa-chart-simple"></i>
+        </a>
+        <a href="#" class="nav-item {% if request.endpoint == 'inspection' %}active{% endif %}" title="New Inspection">
+            <i class="fa-solid fa-clipboard-check"></i>
+        </a>
+    </nav>
+    <div class="sidebar-bottom">
+        <a href="{{ url_for('logout') }}" class="nav-item" title="Logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+        </a>
+    </div>
+</div>
+
+<div class="main-content">
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>

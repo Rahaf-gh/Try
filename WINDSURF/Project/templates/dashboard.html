@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - InSpectra{% endblock %}
+
+{% block content %}
+<div class="dash-page">
+
+  <!-- Decorative blobs -->
+  <div class="dash-blob dash-blob-1"></div>
+  <div class="dash-blob dash-blob-2"></div>
+  <div class="dash-blob dash-blob-3"></div>
+
+  <div class="dash-grid">
+
+    <!-- Card 1: Inspected Panels Summary -->
+    <div class="dash-card dash-card--summary">
+      <p class="dash-card-label">Inspected Panels Summary</p>
+      <div class="dash-total">{{ total_panels }}</div>
+      <div class="dash-summary-row">
+        <div class="dash-summary-item">
+          <span class="dash-summary-sublabel">Defected Panels</span>
+          <span class="dash-summary-subval">{{ defected_panels }}</span>
+        </div>
+        <div class="dash-summary-item">
+          <span class="dash-summary-sublabel">Usable Panels</span>
+          <span class="dash-summary-subval">{{ usable_panels }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Technician Activity -->
+    <div class="dash-card dash-card--technicians">
+      <h2 class="dash-card-title">Technician Activity</h2>
+      <div class="dash-tech-list">
+        {% for tech in technicians %}
+        <div class="dash-tech-row">
+          <span class="dash-tech-name">{{ tech.InspectorName }}</span>
+          <span class="dash-tech-role">Inspector</span>
+        </div>
+        {% endfor %}
+        {% if not technicians %}
+        <div class="dash-tech-row">
+          <span class="dash-tech-name dash-empty">No technicians found</span>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Card 3: Recent Inspection Panel -->
+    <div class="dash-card dash-card--panel">
+      <div class="dash-panel-header">
+        <h2 class="dash-card-title">
+          Panel {% if latest_panel %}#{{ latest_panel.PanelID }}{% else %}{% endif %}
+        </h2>
+        <a href="{{ url_for('history') }}" class="dash-more-link">More...</a>
+      </div>
+
+      <div class="dash-panel-image">
+        {% if latest_image and latest_image.ImageURL %}
+        <img src="{{ url_for('static', filename='images/' + latest_image.ImageURL) }}" alt="Latest Inspection" />
+        {% else %}
+        <div class="dash-panel-placeholder"><i class="fa-solid fa-image"></i></div>
+        {% endif %}
+      </div>
+
+      <div class="dash-panel-metrics">
+        <div class="dash-metric-row">
+          <span class="dash-metric-label">Severity Score</span>
+          <span class="dash-metric-val">{{ latest_report.SeverityScore if latest_report else '' }}</span>
+        </div>
+        <div class="dash-metric-row">
+          <span class="dash-metric-label">Defects</span>
+          <span class="dash-metric-val">{{ latest_report.DefectedCellCount if latest_report else '' }}</span>
+        </div>
+        <div class="dash-metric-row">
+          <span class="dash-metric-label">Lifespan</span>
+          <span class="dash-metric-val">{{ latest_report.LifespanEstimate if latest_report else '' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4: Top Defect Types -->
+    <div class="dash-card dash-card--defects">
+      <h2 class="dash-card-title">Top Defect Types</h2>
+      <div class="dash-defect-list">
+
+        {% set colors = ['#e05252', '#2eb8a0', '#c9b030', '#7b6ef6', '#4ade80'] %}
+        {% set types  = ['Microcracks', 'Hotspots', 'Finger interruptions', 'PID', 'Material Defects'] %}
+
+        {% for i in range(types|length) %}
+        {% set dt    = types[i] %}
+        {% set count = defect_counts.get(dt, 0) %}
+        {% set pct   = (count / max_defect * 100) | int if max_defect > 0 else 0 %}
+        <div class="dash-defect-item">
+          <div class="dash-defect-meta">
+            <span class="dash-defect-name">{{ dt }}</span>
+            <span class="dash-defect-count">{{ count }}</span>
+          </div>
+          <div class="dash-bar-track">
+            <div class="dash-bar-fill" style="width: {{ pct }}%; background: {{ colors[i] }};"></div>
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
