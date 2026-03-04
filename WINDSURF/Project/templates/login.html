@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Log In - InSpectra</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;700;900&family=Arimo:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/globals.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="auth-body">
+
+  <div class="auth-bg">
+    <div class="auth-blob auth-blob-1"></div>
+    <div class="auth-blob auth-blob-2"></div>
+    <div class="auth-blob auth-blob-3"></div>
+    <svg class="auth-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
+      <path fill="#ffffff05" d="M0,160L60,170.7C120,181,240,203,360,197.3C480,192,600,160,720,149.3C840,139,960,149,1080,165.3C1200,181,1320,203,1380,213.3L1440,224L1440,320L0,320Z"/>
+    </svg>
+  </div>
+
+  <div class="auth-layout">
+
+    <!-- Left panel: branding -->
+    <div class="auth-brand">
+      <img class="auth-logo" src="{{ url_for('static', filename='images/Rectangle 6.png') }}" alt="InSpectra" />
+      <h1 class="auth-brand-title">InSpectra</h1>
+      <p class="auth-brand-sub">Automated EL Inspection System<br>for Photovoltaic Solar Panels</p>
+    </div>
+
+    <!-- Right panel: form -->
+    <div class="auth-card">
+      <h2 class="auth-card-title">Welcome Back</h2>
+      <p class="auth-card-sub">Sign in to your Inspector account</p>
+
+      {% if error %}
+      <div class="auth-error">
+        <i class="fa-solid fa-circle-exclamation"></i> {{ error }}
+      </div>
+      {% endif %}
+
+      <form method="POST" action="{{ url_for('login') }}" class="auth-form">
+        <div class="auth-field">
+          <label for="email">Email Address</label>
+          <div class="auth-input-wrap">
+            <i class="fa-solid fa-envelope"></i>
+            <input type="email" id="email" name="email" placeholder="inspector@inspectra.com" required />
+          </div>
+        </div>
+
+        <div class="auth-field">
+          <label for="password">Password</label>
+          <div class="auth-input-wrap">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required />
+          </div>
+        </div>
+
+        <div class="auth-actions">
+          <a href="{{ url_for('forgot_password') }}" class="auth-forgot">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="auth-btn-primary">
+          <i class="fa-solid fa-right-to-bracket"></i> Sign In
+        </button>
+      </form>
+    </div>
+
+  </div>
+
+</body>
+</html>
